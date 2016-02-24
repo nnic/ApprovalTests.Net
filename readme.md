@@ -45,7 +45,7 @@ Nightly (CI) Builds available at myget.org:
 [![ApprovalTests Nightly Build Status](https://www.myget.org/BuildSource/Badge/approvaltests?identifier=c56b6e36-ea68-4965-8cd8-e7033c66e38e "Build Status")](https://www.myget.org/gallery/approvaltests)
 
 [ApprovalTests on the MyGet Gallery](https://www.myget.org/gallery/approvaltests)
-Note: Select "Include Prerelease" instead of "Stable Only" (-IncludePrerelease in powershell)
+Note: Select "Include Prerelease" instead of "Stable Only" (`-IncludePrerelease` in powershell)
 
 Examples
 ---
@@ -80,9 +80,9 @@ Simply rename this to SampleTest.TestList.**approved**.txt and the test will now
 Approved File Artifacts
 ---
 
-The `*.approved.*` files must be checked into source your source control. This can be an issue with git as it will change the line endings. 
-The suggested fix is to add
-`*.approved.* binary` to your `.gitattributes`
+The `*.approved.*` files must be checked into source your source control. ApprovalTests now ignores line endings by default (so you can remove `*.approved.* binary` from your .gitattributes file if you added previously).
+
+If you would like to verify line endings, simply add `[assembly: IgnoreLineEndingsAttribute(false)]` to your AssemblyInfo.cs
 
 Do not add `*.received.*` files to your source control (they are transitory, and some SCMs like TFS will lock them or mark them read-only, which will break every dependent test).
 

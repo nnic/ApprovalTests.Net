@@ -36,6 +36,8 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <AssemblyOriginatorKeyFile>$(SolutionDir)\ApprovalsKeyPair.snk</AssemblyOriginatorKeyFile>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -129,11 +131,7 @@
     <Compile Include="..\VersionInfo.cs">
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
-    <Compile Include="Asp\AspApprovals.cs" />
-    <Compile Include="Asp\AspTestingUtils.cs" />
-    <Compile Include="Asp\Mocks.cs" />
-    <Compile Include="Asp\Mvc\MvcApprovals.cs" />
-    <Compile Include="Asp\PortFactory.cs" />
+    <Compile Include="Asp\MovedToSeperateNugetPackage.cs" />
     <Compile Include="Async\AsyncApprovals.cs" />
     <Compile Include="Combinations\CombinationApprovals.cs" />
     <Compile Include="Core\IApprovalReporterWithCleanUp.cs" />
@@ -154,10 +152,21 @@
     <Compile Include="Namers\NamerFactory.cs" />
     <Compile Include="Namers\StackTraceParsers\AttributeStackTraceParser.cs" />
     <Compile Include="Namers\UnitTestFrameworks\MSpecStackTraceParser.cs" />
+    <Compile Include="Namers\UnitTestFrameworks\XUnit2TheoryStackTraceParser.cs" />
     <Compile Include="Namers\UnitTestFrameworks\XUnitStackTraceParser.cs" />
     <Compile Include="Namers\UnitTestFrameworks\XUnitTheoryStackTraceParser.cs" />
     <Compile Include="Namers\UseApprovalSubdirectoryAttribute.cs" />
+    <Compile Include="Persistence\ExecutableSqlQuery.cs" />
+    <Compile Include="Reporters\AppVeyorReporter.cs" />
+    <Compile Include="Reporters\BambooReporter.cs" />
+    <Compile Include="Reporters\BeyondCompareReporter.cs" />
+    <Compile Include="Reporters\BeyondCompare4Reporter.cs" />
+    <Compile Include="Reporters\GoContinuousDeliveryReporter.cs" />
     <Compile Include="Reporters\IgnoreLineEndingsAttribute.cs" />
+    <Compile Include="Reporters\JenkinsReporter.cs" />
+    <Compile Include="Reporters\TfsVnextReporter.cs" />
+    <Compile Include="Reporters\QueryResult.cs" />
+    <Compile Include="Reporters\XUnit2Reporter.cs" />
     <Compile Include="Scrubber\HtmlScrubbers.cs" />
     <Compile Include="Scrubber\PdfScrubber.cs" />
     <Compile Include="Persistence\DatabaseApprovals.cs" />
@@ -172,7 +181,7 @@
     <Compile Include="Reporters\AppConfigReporter.cs" />
     <Compile Include="Reporters\AraxisMergeReporter.cs" />
     <Compile Include="Reporters\AssertReporter.cs" />
-    <Compile Include="Reporters\BeyondCompareReporter.cs" />
+    <Compile Include="Reporters\BeyondCompare3Reporter.cs" />
     <Compile Include="Reporters\ClipboardReporter.cs" />
     <Compile Include="Reporters\CodeCompareReporter.cs" />
     <Compile Include="Reporters\PowershellClipboardReporter.cs" />
@@ -252,6 +261,7 @@
     <Compile Include="Writers\WriterUtils.cs" />
     <Compile Include="Writers\ConfigurableTempTextFileWriter.cs" />
     <Compile Include="Xml\XmlApprovals.cs" />
+    <Compile Include="Utilities\OSUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -286,12 +296,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
-  <Import Project="..\packages\Fody.1.24.0\build\Fody.targets" Condition="Exists('..\packages\Fody.1.24.0\build\Fody.targets')" />
+  <Import Project="..\packages\Fody.1.29.3\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\packages\Fody.1.29.3\build\portable-net+sl+win+wpa+wp\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Fody.1.24.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.1.24.0\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\Fody.1.29.3\build\portable-net+sl+win+wpa+wp\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.1.29.3\build\portable-net+sl+win+wpa+wp\Fody.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

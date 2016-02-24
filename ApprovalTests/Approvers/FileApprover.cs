@@ -3,6 +3,7 @@ using System.IO;
 
 using ApprovalTests.Core;
 using ApprovalTests.Core.Exceptions;
+using ApprovalTests.Reporters;
 
 namespace ApprovalTests.Approvers
 {
@@ -29,7 +30,7 @@ namespace ApprovalTests.Approvers
 
         public virtual bool Approve()
         {
-            string basename = string.Format(@"{0}\{1}", this.namer.SourcePath, this.namer.Name);
+            string basename = Path.Combine(this.namer.SourcePath, this.namer.Name);
             this.approved = Path.GetFullPath(this.writer.GetApprovalFilename(basename));
             this.received = Path.GetFullPath(this.writer.GetReceivedFilename(basename));
             this.received = this.writer.WriteReceivedFile(this.received);
@@ -45,7 +46,7 @@ namespace ApprovalTests.Approvers
                 return new ApprovalMissingException(receivedPath, approvedPath);
             }
 
-            if (this.normalizeLineEndingsForTextFiles && Path.GetExtension(approvedPath).EndsWith(".txt"))
+            if (this.normalizeLineEndingsForTextFiles && GenericDiffReporter.IsTextFile(approvedPath))
             {
                 var receivedText = File.ReadAllText(receivedPath).Replace("\r\n", "\n");
                 var approvedText = File.ReadAllText(approvedPath).Replace("\r\n", "\n");

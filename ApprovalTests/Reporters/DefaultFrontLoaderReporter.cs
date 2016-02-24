@@ -7,11 +7,16 @@
         public DefaultFrontLoaderReporter()
             : base(
             TfsReporter.INSTANCE,
+            TfsVnextReporter.INSTANCE,
             TeamCityReporter.INSTANCE,
+            JenkinsReporter.INSTANCE,
+            BambooReporter.INSTANCE,
             CruiseControlNetReporter.INSTANCE,
             NCrunchReporter.INSTANCE,
             MightyMooseAutoTestReporter.INSTANCE,
-            MyGetReporter.INSTANCE)
+            MyGetReporter.INSTANCE,
+            GoContinuousDeliveryReporter.INSTANCE,
+            AppVeyorReporter.INSTANCE)
         {
         }
     }

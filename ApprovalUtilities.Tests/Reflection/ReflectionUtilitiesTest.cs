@@ -1,3 +1,6 @@
+
+using ApprovalTests.Reporters;
+
 namespace ApprovalUtilities.Tests.Reflection
 {
     using System;
@@ -11,6 +14,7 @@ namespace ApprovalUtilities.Tests.Reflection
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
+    [UseReporter(typeof(TortoiseDiffReporter))]
     public class ReflectionUtilitiesTest
     {
         [TestMethod]
@@ -37,7 +41,6 @@ namespace ApprovalUtilities.Tests.Reflection
                 new CheckBox().NonPublicStaticFields(false),
                 string.Empty);
         }
-
         [TestMethod]
         public void GetInheritedNonPublicStaticFields()
         {

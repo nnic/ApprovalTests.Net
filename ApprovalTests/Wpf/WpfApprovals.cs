@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if !__MonoCS__
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using ApprovalTests.Core;
@@ -25,15 +26,25 @@ namespace ApprovalTests.Wpf
 		}
 
 
-		public static void Verify(Func<Window> action)
+		public static void Verify(Func<Window> windowCreator)
 		{
-			Approvals.Verify(CreateWindowWpfWriter(action));
+			Approvals.Verify(CreateWindowWpfWriter(windowCreator));
 		}
 
-		private static IApprovalWriter CreateWindowWpfWriter(Func<Window> action)
+		private static IApprovalWriter CreateWindowWpfWriter(Func<Window> windowCreator)
 		{
-			return new ImageWriter(f => WpfUtils.ScreeenCaptureInStaThread(f, action));
+			return new ImageWriter(f => WpfUtils.ScreenCaptureInStaThread(f, windowCreator));
 		}
+
+        public static void Verify(Func<Control> action)
+        {
+            ApprovalTests.Approvals.Verify(CreateControlWpfWriter(action));
+        }
+
+        private static IApprovalWriter CreateControlWpfWriter(Func<Control> action)
+        {
+            return new ImageWriter(f => WpfUtils.ScreenCaptureInStaThread(f, action));
+        }
 
 		public static void Verify(Control control)
 		{
@@ -44,3 +55,4 @@ namespace ApprovalTests.Wpf
 		}
 	}
 }
+#endif
